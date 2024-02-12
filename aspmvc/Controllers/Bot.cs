@@ -2,7 +2,7 @@
 
 namespace aspmvc.Controllers
 {
-    public class Bot
+    public class BotController : Controller
     {
         private static TelegramBotClient? client { get; set; }
 
@@ -14,6 +14,9 @@ namespace aspmvc.Controllers
             }
             client = new TelegramBotClient("6791814675:AAFA9__aGx879v1y-1FtnZNr1LHgRU1i7sc");
             return client;
+        }
+        public static Index(){
+            return "Тёма даун";
         }
     }
 }
