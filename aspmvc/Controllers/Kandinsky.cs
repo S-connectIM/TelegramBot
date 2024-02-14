@@ -108,7 +108,7 @@ namespace aspmvc.Controllers
             if (imageBytes != null)
             {
                 fileIndex++;
-                filePath = $"C:\\Users\\arter\\Desktop\\image\\{promt}.png";
+                filePath = Utilities.imagePath + GetFileIndex(Utilities.imagePath) + ".png";
                 System.IO.File.WriteAllBytes(filePath, imageBytes);
                 Console.WriteLine($"Image ({promt}) saved to {filePath}");
 
@@ -120,7 +120,7 @@ namespace aspmvc.Controllers
             return filePath;
         }
 
-        static int GetFileIndex(string folderPath)
+        private static int GetFileIndex(string folderPath)
         {
             int fileCount = Directory.GetFiles(folderPath, "*.png").Length;
             return fileCount;
