@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Text;
 
-namespace aspmvc
+namespace aspmvc.Controllers
 {
-    class Kandinsky
+    class Kandinsky : Controller
     {
         private const string ApiUrl = "https://api-key.fusionbrain.ai/";
         private const string ApiKey = "C95419CEC0FD4EA4E00D68E41F29F1B8";
@@ -33,7 +34,7 @@ namespace aspmvc
         private async Task<byte[]> GenerateImageAsync(string prompt, int modelId, int width = 1024, int height = 1024, int numImages = 1)
         {
             var uuid = await GenerateImageUuidAsync(prompt, modelId, width, height, numImages);
-            if(uuid == null)
+            if (uuid == null)
             {
                 Console.WriteLine("Generation failed or timed out.");
                 return null;
@@ -78,13 +79,13 @@ namespace aspmvc
             var attempts = 10;
             var delayInSeconds = 10;
 
-            while(attempts > 0)
+            while (attempts > 0)
             {
                 var response = await client.GetAsync($"{ApiUrl}key/api/v1/text2image/status/{uuid}");
                 response.EnsureSuccessStatusCode();
 
                 var data = await response.Content.ReadFromJsonAsync<StatusResponse>();
-                if(data.Status == "DONE")
+                if (data.Status == "DONE")
                 {
                     return Convert.FromBase64String(data.Images[0]);
                 }
@@ -104,11 +105,11 @@ namespace aspmvc
             var modelId = await kandinsky.GetModelIdAsync();
             var imageBytes = await kandinsky.GenerateImageAsync(promt, modelId);
 
-            if(imageBytes != null)
+            if (imageBytes != null)
             {
                 fileIndex++;
-                filePath = $"C:\\Users\\arter\\Desktop\\image\\{fileIndex}.png";
-                File.WriteAllBytes(filePath, imageBytes);
+                filePath = $"C:\\Users\\arter\\Desktop\\image\\{promt}.png";
+                System.IO.File.WriteAllBytes(filePath, imageBytes);
                 Console.WriteLine($"Image ({promt}) saved to {filePath}");
 
             }

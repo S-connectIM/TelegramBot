@@ -2,10 +2,11 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 
-namespace aspmvc
+namespace aspmvc.Controllers
 {
-    class YandexGPT
+    class YandexGPT : Controller
     {
         public static async Task<string> SendCompletionRequest(string question)
         {
@@ -27,7 +28,7 @@ namespace aspmvc
             var url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion";
             var apiKey = "AQVNzo4gWyPFQj-iipUvvndfCShl0uBbmUVpLxRv";
 
-            using(var client = new HttpClient())
+            using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Api-Key", apiKey);
@@ -36,7 +37,7 @@ namespace aspmvc
 
                 var response = await client.PostAsync(url, content);
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var resultJson = await response.Content.ReadAsStringAsync();
                     var resultDocument = JsonDocument.Parse(resultJson);
@@ -49,7 +50,7 @@ namespace aspmvc
                 }
                 else
                 {
-                    if(response.StatusCode.ToString() == "TooManyRequests")
+                    if (response.StatusCode.ToString() == "TooManyRequests")
                         return "Много одновременных запросов";
                     else
                         return $"Error: {response.StatusCode}";
