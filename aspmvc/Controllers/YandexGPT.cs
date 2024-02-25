@@ -56,6 +56,14 @@ namespace aspmvc.Controllers
                         return $"Error: {response.StatusCode}";
                 }
             }
+
+            //SetView();
+        }
+
+        [ActionName("Index")]
+        public IActionResult SetView()
+        {
+            return View();
         }
     }
 }

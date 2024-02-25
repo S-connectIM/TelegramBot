@@ -62,6 +62,12 @@ namespace aspmvc.Controllers
                     switch(userState.CurrentAction)
                     {
                         case UserAction.DrawQuestion:
+                            if(update.Message.Text == "/draw@WhizGPT_bot")
+                            {
+                                await client.SendTextMessageAsync(update.Message.Chat.Id, "Команда уже введена");
+                                break;
+                            }
+
                             await HandleDrawQuestionAsync(userState, update, update.Message.Chat.Id);
                             break;
 

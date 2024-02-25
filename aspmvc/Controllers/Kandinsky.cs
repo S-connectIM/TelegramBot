@@ -98,6 +98,7 @@ namespace aspmvc.Controllers
             return null;
         }
 
+        [ActionName("Index")]
         public static async Task GetGenerateImage(string promt)
         {
             var kandinsky = new Kandinsky();
@@ -115,6 +116,7 @@ namespace aspmvc.Controllers
             }
         }
 
+        [NonAction]
         public static string GetFilePath()
         {
             return filePath;
